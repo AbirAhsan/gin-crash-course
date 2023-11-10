@@ -11,12 +11,12 @@ import (
 
 func Logger() gin.HandlerFunc {
 	return gin.LoggerWithFormatter(func(param gin.LogFormatterParams) string {
-		return fmt.Sprintf("%s  [%s] %s | %s | %d | %s \n",
+		return fmt.Sprintf("[%d] - %s - [%s] %s | %s | %s \n",
+			param.StatusCode,
 			param.ClientIP,
 			param.TimeStamp.Format(time.RFC822),
 			param.Method,
 			param.Path,
-			param.StatusCode,
 			param.Latency,
 		)
 	})
@@ -25,7 +25,11 @@ func Logger() gin.HandlerFunc {
 
 func SetUpLogOutput() {
 
-	f, _ := os.Create("gin.log")
+	f, err := os.Create("gin.log")
+	if err != nil {
+		fmt.Println("File creating error", err)
+	}
+
 	gin.DefaultWriter = io.MultiWriter(f, os.Stdout)
 
 }

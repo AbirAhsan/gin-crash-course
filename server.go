@@ -15,7 +15,7 @@ var (
 func main() {
 	middlewares.SetUpLogOutput()
 	server := gin.New()
-	server.Use(gin.Recovery(), middlewares.Logger())
+	server.Use(gin.Recovery(), middlewares.Logger(), middlewares.BasicAuth())
 
 	// server.GET("/posts", func(ctx *gin.Context) {
 	// 	ctx.JSON(200, gin.H{
@@ -23,6 +23,7 @@ func main() {
 	// 	})
 	// })
 	server.GET("/getVideos", func(ctx *gin.Context) {
+
 		ctx.JSON(200, gin.H{
 			"success":   true,
 			"videoList": VideoController.FindAll(),
