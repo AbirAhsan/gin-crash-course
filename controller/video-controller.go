@@ -22,7 +22,12 @@ func New(service service.VideoService) VideoController {
 }
 
 func (c *controller) FindAll() []entity.Video {
-	return c.service.FindAll()
+	videos := c.service.FindAll()
+
+	if videos != nil {
+		return videos
+	}
+	return []entity.Video{}
 }
 func (c *controller) Save(ctx *gin.Context) entity.Video {
 	var video entity.Video
