@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/AbirAhsan/gin-crash-course/controller"
+	middlewares "github.com/AbirAhsan/gin-crash-course/middleware"
 	"github.com/AbirAhsan/gin-crash-course/service"
 	"github.com/gin-gonic/gin"
 )
@@ -12,7 +13,9 @@ var (
 )
 
 func main() {
-	server := gin.Default()
+	middlewares.SetUpLogOutput()
+	server := gin.New()
+	server.Use(gin.Recovery(), middlewares.Logger())
 
 	// server.GET("/posts", func(ctx *gin.Context) {
 	// 	ctx.JSON(200, gin.H{
